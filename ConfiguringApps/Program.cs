@@ -17,8 +17,15 @@ namespace ConfiguringApps
             CreateWebHostBuilder(args).Build().Run();
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args) //=>
+        //    WebHost.CreateDefaultBuilder(args)
+        //        .UseStartup<Startup>();
+        {
+            return WebHost.CreateDefaultBuilder()
+                //.UseKestrel()
+                .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseIISIntegration()
                 .UseStartup<Startup>();
+        }
     }
 }
