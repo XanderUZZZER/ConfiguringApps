@@ -18,12 +18,22 @@ namespace ConfiguringApps
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) //=>
-        //    WebHost.CreateDefaultBuilder(args)
-        //        .UseStartup<Startup>();
+                                                                          //WebHost.CreateDefaultBuilder(args)
+                                                                          //  .UseStartup<Startup>();
         {
             return WebHost.CreateDefaultBuilder()
                 //.UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
+                .ConfigureAppConfiguration((hostingContext, config) => {
+                    config.AddJsonFile("appsettings.json",
+                                        optional: true, 
+                                        reloadOnChange: true);
+                    config.AddEnvironmentVariables();
+                    if (args != null)
+                    {
+                        config.AddCommandLine(args);
+                    }
+                })
                 .UseIISIntegration()
                 .UseStartup<Startup>();
         }
